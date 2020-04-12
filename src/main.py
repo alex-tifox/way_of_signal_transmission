@@ -8,35 +8,50 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+import dtmf_generator
+from dtmf_generator import dtmf_encode_string_to_signal as encode_string
+
+# GLOBAL VARS
+# --------------
 mydir = os.path.dirname(__file__)
+# --------------
 
-# Get the object of .wav sound file
-wav = PySndfile(os.path.join(mydir, 'test_sample.wav'))
-print(wav)
 
-wav.rewind()  # 1-1
+def get_object_to_read(filename):
+    return PySndfile(os.path.join(mydir, filename))
 
-# Read data of sound - 230 000 frames of it
-wav_data = wav.read_frames(nframes=230000)  # 2-1
-# wav.rewind() # 2-1
 
+def read_frames_from_wav(filename, nframes=-1):
+    # Get the object of .wav sound file
+    wav = PySndfile(os.path.join(mydir, filename))
+
+    # Read data of sound - 230 000 frames of it
+    return wav.read_frames(nframes)
+
+
+def write_signal_to_file(filename_to_write, data, mode, format, channels, samplerate):
+    wav_to_write = PySndfile(filename=os.path.join(mydir, filename_to_write), mode=mode, format=format,
+              channels=channels, samplerate=samplerate)
+
+    wav_to_write.write_frames(data)
+
+    return wav_to_write
+
+
+dtmf_data = encode_string('ala ma kota')
 # Creating object of new sound, mode to read/write, format and others - like in the original sound
-wav_to_write = PySndfile(filename=os.path.join(mydir, 'test_sample_written.wav'), mode='rw', format=wav.format(),
-                         channels=wav.channels(), samplerate=wav.samplerate())
-
-print(wav_to_write)
 
 # Write part of the original .wav to the new one
-wav_to_write.write_frames(wav_data)  # 1-2
+wav_to_write = write_signal_to_file('test_sample_written.wav', dtmf_data, 'rw', get_object_to_read('test_sample.wav').format(), 1, dtmf_generator.fs)  # 1-2
 print(wav_to_write)
 
 # Graphs
 ###
 plt.title('Sound that will be written to the new .wav')
-plt.plot(wav_data)
+plt.plot(dtmf_data)
 plt.show()
 ###
-plt.title('2000 first frames of newly created .wav')
-plt.plot(wav_to_write.read_frames(nframes=2000))
+plt.title('Frames of newly created .wav')
+plt.plot(wav_to_write.read_frames())
 plt.show()
 ###
