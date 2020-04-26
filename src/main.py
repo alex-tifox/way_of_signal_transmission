@@ -38,20 +38,26 @@ def write_signal_to_file(filename_to_write, data, mode, format, channels, sample
     return wav_to_write
 
 
-dtmf_data = encode_string('ala ma kota')
+dtmf_data = dtmf_generator.dtmf_generator(encode_string('a'))
 # Creating object of new sound, mode to read/write, format and others - like in the original sound
 
-# Write part of the original .wav to the new one
-wav_to_write = write_signal_to_file('test_sample_written.wav', dtmf_data, 'rw', get_object_to_read('test_sample.wav').format(), 1, dtmf_generator.fs)  # 1-2
-print(wav_to_write)
-
-# Graphs
-###
-plt.title('Sound that will be written to the new .wav')
+arr = dtmf_generator.divide_to_borders(dtmf_data)
 plt.plot(dtmf_data)
 plt.show()
-###
-plt.title('Frames of newly created .wav')
-plt.plot(wav_to_write.read_frames())
-plt.show()
-###
+# dtmf_generator.spectrogram(arr)
+dtmf_generator.noised_signal_spectrum_spectrogram(dtmf_data)
+
+# # Write part of the original .wav to the new one
+# wav_to_write = write_signal_to_file('test_sample_written.wav', dtmf_data, 'rw', get_object_to_read('test_sample.wav').format(), 1, dtmf_generator.fs)  # 1-2
+# print(wav_to_write)
+#
+# # Graphs
+# ###
+# plt.title('Sound that will be written to the new .wav')
+# plt.plot(dtmf_data)
+# plt.show()
+# ###
+# plt.title('Frames of newly created .wav')
+# plt.plot(wav_to_write.read_frames())
+# plt.show()
+# ###
