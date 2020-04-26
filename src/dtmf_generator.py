@@ -17,15 +17,16 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-
+from scipy import signal
 # GLOBAL VARS
 T = 0.1
 fs = 44100
 
 
 def generate_wave_with_parameters(start_time=0, end_time=1, amplitude=1, sample_rate=fs, f1=2, f2=3, phi=0):
-    t = np.linspace(start_time, end_time, int((end_time-start_time)*sample_rate))
-    return_signal = np.array(amplitude * np.sin(2 * np.pi * t * f1 + phi)) + np.array(amplitude * np.sin(2 * np.pi * t * f2 + phi))
+    t = np.linspace(start_time, end_time, int((end_time - start_time) * sample_rate))
+    return_signal = np.array(amplitude * (np.sin(2 * np.pi * t * f1 + phi) +  np.sin(2 * np.pi * t * f2 + phi)))
+
     return return_signal
 
 
@@ -36,37 +37,53 @@ def dtmf_generator(string_to_encode):
 
     for char in string_to_encode:
         if char == '1':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1209))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1209))
         elif char == '2':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1336))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1336))
         elif char == '3':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1477))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1477))
         elif char == '4':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1209))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1209))
         elif char == '5':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1336))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1336))
         elif char == '6':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1477))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1477))
         elif char == '7':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1209))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1209))
         elif char == '8':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1336))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1336))
         elif char == '9':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1477))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1477))
         elif char == '0':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=941, f2=1366))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=941, f2=1366))
         elif char == 'A':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1633))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=697, f2=1633))
         elif char == 'B':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1633))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=770, f2=1633))
         elif char == 'C':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1633))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1633))
         elif char == 'D':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1633))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=852, f2=1633))
         elif char == '*':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=941, f2=1209))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=941, f2=1209))
         elif char == '#':
-            result = np.append(result, generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=941, f2=1633))
+            result = np.append(result,
+                               generate_wave_with_parameters(start_time=start_time, end_time=end_time, f1=941, f2=1633))
 
         # print('Start and end time are: ', start_time, end_time)
         start_time += T
@@ -135,3 +152,60 @@ def dtmf_encode_string_to_signal(string_to_encode):
             result_string_for_dtmf_generation += '0'
 
     return result_string_for_dtmf_generation
+
+
+def spectrum(data):
+    result = np.fft.fft(data, int(len(data) - len(data) / 2))
+    fft_res = np.array(result[0:int(len(result) / 2)])
+
+    return np.log10(np.sqrt(fft_res.real ** 2 + fft_res.imag ** 2))
+
+
+def spectrogram_ret_dfts(splitted_array):
+    dfts_from_element = []
+    for element in splitted_array:
+        f, t, Sxx = signal.spectrogram(element, 4410)
+        plt.pcolormesh(t, f, Sxx)
+        plt.ylabel("Frequency[Hz]")
+        plt.xlabel("Time [sec]")
+        plt.show()
+        dfts_from_element.append(spectrum(element))
+
+    return dfts_from_element
+
+
+def divide_to_borders(data, t=T, sample_rate=fs):
+    # print(len(data))
+    if len(data) / (sample_rate * t) == 1:
+        return data
+
+    splitted_array = np.array_split(data, round(len(data) / (sample_rate * t)))
+
+    # for element in splitted_array:
+    #     print(len(element))
+
+    return splitted_array
+
+
+def noising_signal(signal):
+    return signal + np.random.normal(0, 0.1, size=len(signal))
+
+
+def noised_signal_spectrum_spectrogram(sygnal):
+    plt.plot(spectrum(sygnal))
+    plt.title("Widmo sygnalu")
+    plt.show()
+    sygnal = noising_signal(sygnal)
+    plt.plot(sygnal)
+    plt.title("Sygnal zaszumiony")
+    plt.show()
+    sygnal = spectrum(sygnal)
+    plt.plot(sygnal)
+    plt.title("Widmo po zaszumieniu")
+    plt.show()
+
+    f, t, Sxx = signal.spectrogram(sygnal, 44100)
+    plt.pcolormesh(t, f, Sxx)
+    plt.ylabel("Frequency[Hz]")
+    plt.xlabel("Time [sec]")
+    plt.show()
