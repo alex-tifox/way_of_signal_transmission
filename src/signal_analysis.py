@@ -36,6 +36,8 @@ def spectrogram(yaxis):
     plt.title('Spektrogram sygnału')
     plt.show()
 
+    return f, t, Sxx
+
 
 def add_noise_to_signal(signal, noise_name, samplerate, alpha_coeff):
 

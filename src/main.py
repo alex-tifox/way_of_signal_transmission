@@ -3,7 +3,7 @@ import file_manipulation as f_man
 import matplotlib.pyplot as plt
 
 import filters
-
+from decode_spectrogram import decode_spectrogram
 
 def main():
     f_man.generate_wav_from_string("olek")
@@ -74,7 +74,8 @@ def main():
     plt.plot(filtered)
     plt.show()
 
-    signal_analysis.spectrogram(filtered)
+    freqs, bins, Sxx = signal_analysis.spectrogram(filtered)
+    decode_spectrogram(freqs, bins, Sxx)
 
 
 main()
