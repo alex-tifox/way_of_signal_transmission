@@ -4,7 +4,7 @@ import dtmf_generator as dgen
 
 def generate_wav_from_string(string):
     wav_data = dgen.dtmf_generator(string)
-    soundfile.write('dtmf_from_string.wav', wav_data, 44100)
+    soundfile.write('dtmf_from_string.wav', wav_data, 44100, subtype='FLOAT')
 
     return wav_data
 

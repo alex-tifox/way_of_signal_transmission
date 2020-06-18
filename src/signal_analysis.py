@@ -61,3 +61,5 @@ def add_noise_to_signal(signal, noise_name, samplerate, alpha_coeff):
 
     spectrum(noised_signal, samplerate)
     plt.show()
+
+    return noised_signal

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    f_man.generate_wav_from_string("oleksandr")
+    f_man.generate_wav_from_string("olek")
 
     data, samplerate = f_man.read_wav_from_file()
 
