@@ -9,7 +9,7 @@ def spectrum(data, fs):
 
     figure = plt.figure()
     widmo = figure.add_subplot(111)
-    widmo.set(xlabel="Frequency [Hz]", ylabel="Power [dB]", title=title)
+    widmo.set(xlabel="Frequency [Hz]", ylabel="Power [dB]")
     # To convert signal magnitude to decibel use the following formula
     # db = 20 * log10(Magnitude)
     widmo.plot(wave_freqs[:int(len(wave_freqs) / 2)], 20 * np.log10(fft_res)[:int(len(fft_res) / 2)])

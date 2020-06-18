@@ -16,8 +16,7 @@
 # |---------------------------------------|
 
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy import signal
+
 # GLOBAL VARS
 T = 0.1
 fs = 44100
@@ -156,23 +155,3 @@ def generate_wave_with_parameters(start_time=0, end_time=1, amplitude=2, sample_
     return_signal = np.array(amplitude * (np.sin(2 * np.pi * t * f1 + phi))) + np.array(amplitude * np.sin(2 * np.pi * t * f2 + phi))
 
     return return_signal
-
-
-def noised_signal_spectrum_spectrogram(sygnal):
-    plt.plot(spectrum(sygnal))
-    plt.title("Widmo sygnalu")
-    plt.show()
-    sygnal = noising_signal(sygnal)
-    plt.plot(sygnal)
-    plt.title("Sygnal zaszumiony")
-    plt.show()
-    sygnal = spectrum(sygnal)
-    plt.plot(sygnal)
-    plt.title("Widmo po zaszumieniu")
-    plt.show()
-
-    f, t, Sxx = signal.spectrogram(sygnal, 44100)
-    plt.pcolormesh(t, f, Sxx)
-    plt.ylabel("Frequency[Hz]")
-    plt.xlabel("Time [sec]")
-    plt.show()
