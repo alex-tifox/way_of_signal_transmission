@@ -23,14 +23,9 @@ T = 0.1
 fs = 44100
 
 
-def generate_wave_with_parameters(start_time=0, end_time=1, amplitude=1, sample_rate=fs, f1=2, f2=3, phi=0):
-    t = np.linspace(start_time, end_time, int((end_time - start_time) * sample_rate))
-    return_signal = np.array(amplitude * (np.sin(2 * np.pi * t * f1 + phi) +  np.sin(2 * np.pi * t * f2 + phi)))
-
-    return return_signal
-
-
 def dtmf_generator(string_to_encode):
+    string_to_encode = dtmf_encode_string_to_signal(string_to_encode)
+
     result = np.empty(shape=0)
     start_time = 0
     end_time = T
@@ -92,6 +87,7 @@ def dtmf_generator(string_to_encode):
     return result
 
 
+# private method
 def dtmf_encode_string_to_signal(string_to_encode):
     string_to_encode = str.lower(string_to_encode)
     result_string_for_dtmf_generation = ''
@@ -154,41 +150,12 @@ def dtmf_encode_string_to_signal(string_to_encode):
     return result_string_for_dtmf_generation
 
 
-def spectrum(data):
-    result = np.fft.fft(data, int(len(data) - len(data) / 2))
-    fft_res = np.array(result[0:int(len(result) / 2)])
+#private method
+def generate_wave_with_parameters(start_time=0, end_time=1, amplitude=2, sample_rate=fs, f1=2, f2=3, phi=0):
+    t = np.linspace(start_time, end_time, int((end_time - start_time) * sample_rate))
+    return_signal = np.array(amplitude * (np.sin(2 * np.pi * t * f1 + phi))) + np.array(amplitude * np.sin(2 * np.pi * t * f2 + phi))
 
-    return np.log10(np.sqrt(fft_res.real ** 2 + fft_res.imag ** 2))
-
-
-def spectrogram_ret_dfts(splitted_array):
-    dfts_from_element = []
-    for element in splitted_array:
-        f, t, Sxx = signal.spectrogram(element, 4410)
-        plt.pcolormesh(t, f, Sxx)
-        plt.ylabel("Frequency[Hz]")
-        plt.xlabel("Time [sec]")
-        plt.show()
-        dfts_from_element.append(spectrum(element))
-
-    return dfts_from_element
-
-
-def divide_to_borders(data, t=T, sample_rate=fs):
-    # print(len(data))
-    if len(data) / (sample_rate * t) == 1:
-        return data
-
-    splitted_array = np.array_split(data, round(len(data) / (sample_rate * t)))
-
-    # for element in splitted_array:
-    #     print(len(element))
-
-    return splitted_array
-
-
-def noising_signal(signal):
-    return signal + np.random.normal(0, 0.1, size=len(signal))
+    return return_signal
 
 
 def noised_signal_spectrum_spectrogram(sygnal):
